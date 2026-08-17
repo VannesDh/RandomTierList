@@ -23,6 +23,7 @@ public class TierContainerController : ControllerBase
     {
         var tierContainer = await _appDbContext.TierContainers
                             .Include(t => t.Tiers)
+                            .Include(t => t.Items)
                             .FirstOrDefaultAsync(t => t.Id == id);
 
         if (tierContainer == null)
@@ -36,11 +37,17 @@ public class TierContainerController : ControllerBase
                 Tiers = tierContainer.Tiers.Select(tier => new TierDto
                 {
                     Id = tier.Id,
-                    Level = tier.Level,
+                    Level = tier.Level.ToString(),
                     Description = tier.Description,
                     MaxItems = tier.MaxItems,
                     Color = tier.Color
-                }).ToList()
+                }).ToList(),
+                Items = tierContainer.Items.Select(item => new ItemDto{
+                    Id = item.Id,
+                    Name = item.Name,
+                    ImageUrl = item.ImageUrl,
+                    TierId = null
+                }).ToList()   
             };
 
         return Ok(dto);

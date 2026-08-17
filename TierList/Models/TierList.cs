@@ -23,7 +23,8 @@ public class Item
     public int Id { get; set; }
     public required string Name {get; set;}
     public string? ImageUrl{get; set;}
-   
+
+    public int TierId{get; set;}
     public int TierContainerId { get; set; }
     public TierContainer TierContainer { get; set; } = null!;
 }
